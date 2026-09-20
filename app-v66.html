@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V66</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V66…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app-v65.html?v=20260913-65',{cache:'no-store'});
+    if(!response.ok)throw new Error('No se pudo cargar la base V65.');
+    let html=await response.text();
+    html=html.replace('PCI Secundaria Aprende V65','PCI Secundaria Aprende V66');
+    html=html.replace('Cargando PCI Secundaria Aprende V65…','Cargando PCI Secundaria Aprende V66…');
+    html=html.replace("const VERSION='20260913-65';","const VERSION='20260913-66';");
+    html=html.replace("'src/v64-teacher-import.js','src/v65-annual-offer.js','src/v65-annual-scheduler.js'","'src/v64-teacher-import.js','src/v65-annual-offer.js','src/v65-annual-scheduler.js','src/v66-institutional-general.js'");
+    html=html.replace('data/materias-v2.json?v=20260913-65','data/materias-v2.json?v=20260913-66');
+    document.open();document.write(html);document.close();
+  }catch(error){document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar V66.</strong><p>'+String(error.message||error)+'</p></main>'}
+})();
+</script>
+</body>
+</html>

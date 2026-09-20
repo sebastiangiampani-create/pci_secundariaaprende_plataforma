@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V70</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V70…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app.html?v=20260914-70',{cache:'no-store'});
+    if(!response.ok)throw new Error('No se pudo cargar la base estable de la aplicación.');
+    let html=await response.text();
+    html=html.replace("const VERSION='20260912-59';","const VERSION='20260914-70';");
+    html=html.replace(
+      "'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js'",
+      "'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js','src/v60-reconciliation.js','src/v60-phase2-print.js','src/v60-availability-preferences.js','src/v61-schedule-optimizer.js','src/v61-schedule-print.js','src/v62-schedule-locks.js','src/v63-offer-model.js','src/v63-offer-runtime-fix.js','src/v64-teacher-import.js','src/v65-annual-offer.js','src/v65-annual-scheduler.js','src/v66-institutional-general.js','src/v68-staff-planning.js','src/v68-annual-scheduler.js','src/v68-institutional-export.js','src/v68-runtime-fix.js','src/v69-tutoria-contents.js','src/v69-ux-workflow.js','src/v69-visibility-hotfix.js','src/v69-institutional-accordion-fix.js','src/v70-staffing-workbook-optimizer.js'"
+    );
+    html=html.replace('data/materias-v2.json?v=20260912-59','data/materias-v2.json?v=20260914-70');
+    html=html.replace(
+      'let html=htmlRaw;',
+      'let html=htmlRaw;\n    html=html.replace("<title>PCI Secundaria Aprende V2</title>","<title>PCI Secundaria Aprende V70</title>");'
+    );
+    document.open();document.write(html);document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar V70.</strong><p>'+String(error.message||error)+'</p></main>';
+  }
+})();
+</script>
+</body>
+</html>

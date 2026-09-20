@@ -1,0 +1,287 @@
+{
+  "version": 12,
+  "modelo_institucional": {
+    "unidad_trabajo": "pci_por_escuela_y_orientacion",
+    "escuela_madre_puede_tener_varios_pci": true,
+    "cada_orientacion_crea_un_pci_independiente": true,
+    "principio_madre": "ninguna_decision_de_composicion_o_integracion_puede_romper_los_agrupamientos_minimos_prescriptos",
+    "estado_independiente_por_pci": [
+      "formacion_general",
+      "formacion_orientada",
+      "agrupamientos",
+      "articulaciones",
+      "ubicaciones_c1_c10",
+      "docentes",
+      "desarrollo_curricular",
+      "electividades",
+      "planes"
+    ]
+  },
+  "fases": {
+    "fase_1": {
+      "nombre": "Mapa de la Oferta",
+      "objetivo": "construir_y_validar_la_estructura_del_pci",
+      "permite": [
+        "materias_materializaciones",
+        "agrupamientos",
+        "articulaciones_fg_fo",
+        "ubicaciones_c1_c10",
+        "docentes_opcionales_por_materia",
+        "drag_drop"
+      ],
+      "prohibe": [
+        "contenidos",
+        "objetivos",
+        "contexto",
+        "practica_producto_eje",
+        "sinopsis",
+        "electividad",
+        "planes",
+        "edicion_carga_horaria"
+      ],
+      "interfaz": {
+        "drag_drop_como_interaccion_principal": true,
+        "filtro_bolsa_por_anio": true,
+        "bloqueo_inmediato_de_accion_invalida": true,
+        "bloqueo_debe_explicar_motivo": true,
+        "bloqueo_debe_indicar_resolucion_si_existe": true
+      },
+      "docentes": {
+        "se_asignan_a": "materia",
+        "asignacion_opcional": true,
+        "puede_haber_materia_sin_docente": true,
+        "ausencia_docente_no_invalida_mapa": true,
+        "docente_viaja_con_la_materia_al_moverla": true,
+        "docente_se_conserva_en_replica_cuatrimestral": true
+      }
+    },
+    "fase_2": {
+      "nombre": "Mapa Propuesta Curricular",
+      "requiere_fase_1_validada": true,
+      "hereda_estructura_fase_1": true,
+      "reabre_agrupamientos_fase_1": false
+    }
+  },
+  "mapa": {
+    "niveles": 5,
+    "cuatrimestres": 10,
+    "nivel_por_cuatrimestre": {
+      "1": [1, 2],
+      "2": [3, 4],
+      "3": [5, 6],
+      "4": [7, 8],
+      "5": [9, 10]
+    },
+    "materias_de_un_anio_no_pueden_moverse_a_otro_anio": true,
+    "materia_anual_en_formato_cuatrimestral": {
+      "replica_automatica_en_cuatrimestre_pareja": true,
+      "mantiene_dos_espacios_visualmente_separados": true,
+      "mantiene_mismo_agrupamiento_en_ambos_cuatrimestres": true
+    }
+  },
+  "formacion_general": {
+    "lengua_literatura": {
+      "tipo": "troncal_anual",
+      "cantidad": 5
+    },
+    "matematica": {
+      "tipo": "troncal_anual",
+      "cantidad": 5
+    },
+    "lenguas_adicionales": {
+      "tipo": "troncal_anual",
+      "cantidad": 5
+    },
+    "ciencias_naturales": {
+      "tipo": "laboratorio",
+      "cantidad": 10,
+      "distribucion": {
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2
+      },
+      "nivel_3_no_admite_un_solo_espacio_curricular": true
+    },
+    "ciencias_sociales": {
+      "tipo": "laboratorio",
+      "cantidades_validas": [10, 12],
+      "cantidad_11_invalida": true,
+      "distribucion_base": {
+        "1": 2,
+        "2": 2,
+        "4": 2,
+        "5": 2
+      },
+      "nivel_3": {
+        "opcion_predeterminada": "A",
+        "opcion_A": {
+          "laboratorios_anuales": 2,
+          "por_cuatrimestre": 1,
+          "materias_por_laboratorio": 4,
+          "materias": [
+            "Economía",
+            "Formación Ética y Ciudadana",
+            "Geografía",
+            "Historia"
+          ],
+          "replica_misma_composicion_c5_c6": true
+        },
+        "opcion_B": {
+          "laboratorios_anuales": 4,
+          "por_cuatrimestre": 2,
+          "materias_por_laboratorio": 2,
+          "replica_mismas_parejas_c5_c6": true
+        }
+      },
+      "regla_un_solo_espacio_curricular": {
+        "prohibido_como_regla_general": true,
+        "excepciones_solo_si_estan_previstas_en_nes": true,
+        "excepcion_explicita": "ciencias_sociales_nivel_5"
+      }
+    },
+    "artes": {
+      "tipo": "taller",
+      "cantidad": 6,
+      "cuatrimestres": [1, 2, 3, 4, 7, 8]
+    },
+    "tecnologias": {
+      "tipo": "taller",
+      "cantidad": 8,
+      "cuatrimestres": [1, 2, 3, 4, 5, 6, 7, 8],
+      "nota": "Tecnologia orientada de 5to forma parte de los Talleres de la Orientacion"
+    },
+    "educacion_fisica": {
+      "tipo": "taller",
+      "cantidad": 10,
+      "cuatrimestres": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    }
+  },
+  "formacion_orientada": {
+    "presentacion_inicial_mapa": {
+      "es_modelo_valido_no_obligatorio": true,
+      "nivel_3": {
+        "C5": "laboratorio",
+        "C6": "taller"
+      },
+      "nivel_4": {
+        "C7": "laboratorio",
+        "C8": "taller"
+      },
+      "nivel_5": {
+        "C9": ["laboratorio", "taller"],
+        "C10": ["laboratorio", "taller"]
+      },
+      "formatos_reordenables_por_drag_drop_dentro_del_mismo_nivel": true,
+      "al_reordenar_debe_conservar": {
+        "nivel_3": {"laboratorios": 1, "talleres": 1},
+        "nivel_4": {"laboratorios": 1, "talleres": 1},
+        "nivel_5": {"laboratorios": 2, "talleres": 2}
+      }
+    },
+    "laboratorios": {
+      "cantidad": 4,
+      "distribucion": {
+        "3": 1,
+        "4": 1,
+        "5": 2
+      },
+      "minimo_espacios_curriculares_por_laboratorio": 2,
+      "excepcion_nivel_3": {
+        "minimo": 1,
+        "puede_quedar_con_una_sola_materia": true,
+        "no_puede_quedar_vacio": true
+      }
+    },
+    "talleres": {
+      "cantidad": 4,
+      "distribucion": {
+        "3": 1,
+        "4": 1,
+        "5": 2
+      },
+      "minimo_espacios_curriculares_por_taller": 2,
+      "excepcion_nivel_3": {
+        "minimo": 1,
+        "puede_quedar_con_una_sola_materia": true,
+        "no_puede_quedar_vacio": true
+      }
+    },
+    "proyecto_vinculacion": {
+      "requerido": true,
+      "nivel": 5,
+      "tipo": "anual",
+      "cuatrimestres": [9, 10],
+      "unico_espacio": true
+    }
+  },
+  "integracion_fg_fo": {
+    "habilitada_desde_nivel": 3,
+    "campos_fg_habilitados": [
+      "Ciencias Sociales y Humanidades",
+      "Ciencias Naturales"
+    ],
+    "mismo_anio_obligatorio": true,
+    "optativa_para_la_institucion": true,
+    "si_no_hay_definicion_se_mantienen_separados": true,
+    "al_integrar_un_espacio_fo": {
+      "deja_de_tener_doble_asignacion_en_fo": true,
+      "no_puede_romper_minimos_prescriptos": true,
+      "no_puede_dejar_espacio_obligatorio_vacio": true,
+      "no_puede_dejar_agrupamiento_invalido": true
+    }
+  },
+  "cargas_horarias": {
+    "son_decision_de_fase_1": false,
+    "visibles_en_banco_de_materias": false,
+    "editables_por_usuario": false,
+    "uso": "metadato_interno_para_validaciones"
+  },
+  "laboratorios": {
+    "max_horas_catedra": 9,
+    "aplica_a": [
+      "FG",
+      "FO",
+      "integrados_FG_FO"
+    ],
+    "excepciones_segun_norma": [
+      "Bachillerato en Ciencias Naturales nivel 5 para laboratorios de la Orientacion"
+    ]
+  },
+  "validacion": {
+    "orden": [
+      "mismo_anio",
+      "preservar_cantidad_minima_de_espacios",
+      "preservar_conformacion_minima_de_cada_espacio",
+      "respetar_excepciones_normativas",
+      "controlar_carga_horaria",
+      "aceptar_drop"
+    ],
+    "no_bloquea": [
+      "materias_sin_docente_asignado"
+    ],
+    "mensaje_de_error": {
+      "titulo": "Acción no permitida",
+      "debe_explicar_regla": true,
+      "debe_explicar_consecuencia": true,
+      "debe_sugerir_resolucion_si_existe": true
+    }
+  },
+  "electividad": {
+    "solo_fase": 2,
+    "requiere_mellizo_completo": true,
+    "si_mellizo_incompleto": "obligatorio",
+    "compartido": [
+      "objetivos",
+      "contenidos_priorizados"
+    ],
+    "propio_por_alternativa": [
+      "nombre",
+      "contexto_o_practica",
+      "sinopsis",
+      "planes",
+      "contenidos_profundizacion"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende · Gestión</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando Gestión…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app.html?v=20260920-horarios-estables-r37',{cache:'no-store'});
+    if(!response.ok)throw new Error('No se pudo cargar la aplicación.');
+    let html=await response.text();
+    html=html.replace("const VERSION='20260916-fo-atomic';","const VERSION='20260920-horarios-estables-r37';");
+    html=html.replace("const VERSION='20260912-59';","const VERSION='20260920-horarios-estables-r37';");
+    html=html.replace(
+      "'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js'",
+      "'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js','src/v69-tutoria-contents.js','src/v33-articulation-rules.js','src/v47-fo-content-atomicizer.js','src/v60-availability-preferences.js','src/v63-offer-model.js','src/v63-offer-runtime-fix.js','src/v65-annual-offer.js','src/v65-annual-scheduler.js','src/v81-stable-scheduler.js','src/v71-simple-assignment-excel.js','src/v71-management-nav-reset.js','src/v71-lean-management.js','src/v72-students-commissions.js','src/v78-asistencia.js','src/v79-regularidad.js','src/v68-institutional-export.js','src/v73-management-home.js','src/v74-home-redesign.js','src/v75-app-architecture.js','src/v76-calificaciones.js','src/v77-boletines-cierres.js','src/v80-access-control.js','src/ui-hide-version-labels.js','src/ui-clean-scheduler-warnings.js','src/default-min-extra-class.js','src/schedule-views.js','src/ui-navigation-consistency.js','src/creative-commons-footer.js'"
+    );
+    html=html.replace('data/materias-v2.json?v=20260916-fo-atomic','data/materias-v2.json?v=20260920-horarios-estables-r37');
+    html=html.replace('data/materias-v2.json?v=20260912-59','data/materias-v2.json?v=20260920-horarios-estables-r37');
+    const panelEntryStyle='<style id="pci-single-management-entry">#panel .phase-grid:has(> #v71LeanPanelEntry [data-v71n-open]:not(:disabled)) > #institutionalCard{display:none!important}</style>';
+    html=html.replace('let html=htmlRaw;','let html=htmlRaw;\n    html=html.replace("</head>",'+JSON.stringify(panelEntryStyle+'</head>')+');\n    html=html.replace("<title>PCI Secundaria Aprende V2</title>","<title>PCI Secundaria Aprende · Gestión</title>");');
+    document.open();document.write(html);document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar Gestión.</strong><p>'+String(error.message||error)+'</p></main>';
+  }
+})();
+</script>
+</body>
+</html>

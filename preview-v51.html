@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende · Preview V57</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando Preview V57…</p>
+<script>
+(async()=>{
+  const VERSION='20260912-57-preview8';
+  const localModules=[
+    'src/v19-map.js','src/v20-format-order.js','src/v21-custom-social-ui.js','src/v22-teachers.js',
+    'src/v23-prearm.js','src/v24-social-interactions.js','src/v25-institutional-spaces.js','src/v26-other-formats-print.js',
+    'src/v29-fo-rules.js','src/v30-fo-minimum-guard.js','src/v31-integration-hours-print.js','src/v32-phase2-entry-fix.js',
+    'src/v38-phase2-workspace.js','src/v47-elective-plans.js','src/v42-homologacion-performance.js'
+  ];
+  const previewModules=[
+    'preview-v51-src/v48-institutional-layer.js','preview-v51-src/v48-phase2-institutional-content.js','preview-v51-src/v48-disable-phase1-teachers.js','preview-v51-src/v57-custom-divisions.js',
+    'preview-v51-src/v52-derived-teacher-load.js',
+    'preview-v51-src/v51-school-timetable-config.js','preview-v51-src/v49-teacher-availability.js','preview-v51-src/v50-schedule-generator.js',
+    'preview-v51-src/v53-institutional-work-scheduler.js','preview-v51-src/v54-auto-area-coincidence.js','preview-v51-src/v55-contiguous-area-blocks.js','preview-v51-src/v56-offer-model.js',
+    'preview-v51-src/v51-preview-phase3-mode.js'
+  ];
+  const fetchText=async url=>{
+    const response=await fetch(`${url}?v=${VERSION}`,{cache:'no-store'});
+    if(!response.ok)throw new Error(`No se pudo cargar ${url}.`);
+    return response.text();
+  };
+  const inline=source=>'<script>'+String(source).replace(/<\/script/gi,'<\\/script')+'</scr'+'ipt>\n';
+
+  try{
+    const [htmlRaw,phase2Source,...sources]=await Promise.all([
+      fetchText('app-core.html'),
+      fetchText('src/v47-phase2-matrix.js'),
+      ...localModules.map(fetchText),
+      ...previewModules.map(fetchText)
+    ]);
+    if(!phase2Source.includes("const VERSION='20260912-47'")||!phase2Source.includes('window.PCIPhase2V28=')){
+      throw new Error('No se pudo cargar la Fase 2 estable de V47.');
+    }
+
+    const PREVIEW_STORAGE='pci-sa-v2-preview-v51';
+    const STABLE_STORAGE='pci-sa-v2-app-20260910-21';
+    try{
+      if(!localStorage.getItem(PREVIEW_STORAGE)&&localStorage.getItem(STABLE_STORAGE)){
+        localStorage.setItem(PREVIEW_STORAGE,localStorage.getItem(STABLE_STORAGE));
+      }
+    }catch(_){ }
+
+    let html=htmlRaw;
+    html=html.replace("const STORAGE='pci-sa-v2-app-20260910-7';",`const STORAGE='${PREVIEW_STORAGE}';`);
+    html=html.replace("data/materias-v2.json?v=20260910-7","data/materias-v2.json?v=20260912-57-preview8");
+    const notice='<div class="notice"><strong>Preview V57:</strong> Fase 1 conserva la estructura curricular y Fase 2 conserva íntegramente el desarrollo curricular. La Fase 3 organiza la implementación institucional. La oferta docente parte de las horas frente a curso, suma siempre la planificación obligatoria de cada equipo y permite agregar entre 0 % y 50 % adicional sobre las horas frente a curso. El 50 % es un techo, no una asignación automática. Las divisiones pueden mantener A/B/C o usar nombres reales personalizados. Esta vista usa almacenamiento aislado y no modifica la V47 estable.</div>';
+    html=html.replace(
+      '<div class="notice"><strong>Importante:</strong> ubicar Historia de 1.º en C1 no la saca de la bolsa. Sigue disponible para C2. Lo mismo ocurre con todos los pares C1/C2, C3/C4, C5/C6, C7/C8, C9/C10. En las troncales, una sola asignación ocupa los dos cuatrimestres.</div>',
+      notice
+    );
+    html=html.replace(
+      '<div class="notice"><strong>Importante:</strong> ubicar Historia de 1.º en C1 no la saca de la bolsa. Sigue disponible para C2. Lo mismo ocurre con todos los pares C1/C2, C3/C4, C5/C6, C7/C8 y C9/C10. En las troncales, una sola asignación ocupa los dos cuatrimestres.</div>',
+      notice
+    );
+
+    const closeScript='</scr'+'ipt>';
+    html=html.replace('\ninit();\n'+closeScript,'\nwindow.__pciBaseInit=init;\n'+closeScript);
+    const beforePhase2=sources.slice(0,8).map(inline).join('');
+    const afterPhase2=sources.slice(8).map(inline).join('');
+    html=html.replace('</body>',
+      beforePhase2+
+      inline(phase2Source)+
+      afterPhase2+
+      '<script>(async()=>{if(window.__pciBaseInit)await window.__pciBaseInit();window.dispatchEvent(new Event("pci-app-ready"));})();</scr'+'ipt>\n'+
+      '</body>'
+    );
+    document.open();document.write(html);document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar el Preview V57.</strong><p>'+String(error.message||error)+'</p><p>La V47 pública no fue modificada.</p></main>';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V2</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V2…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app-core.html?v=20260911-35',{cache:'no-store'});
+    if(!response.ok) throw new Error('No se pudo cargar la aplicación base.');
+    let html=await response.text();
+
+    const phase2Response=await fetch('src/v28-phase2-matrix.js?v=20260911-35',{cache:'no-store'});
+    if(!phase2Response.ok) throw new Error('No se pudo cargar el módulo de Fase 2.');
+    let phase2Source=await phase2Response.text();
+    phase2Source=phase2Source
+      .replace("'Agro y Ambiente':{dcj:true}","'Agro y Ambiente':{f:'agro_ambiente',dcj:true}")
+      .replace("if(m.dcj)return[];","")
+      .replace("data/orientaciones/${m.f}.txt?v=20260911-28","data/orientaciones/${m.f}.txt?v=20260911-35")
+      .replace("<button data-src=\"FO\" ${m.dcj?'disabled':''}>${esc2(state.active)}</button>","<button data-src=\"FO\">${esc2(state.active)}</button>")
+      .replace("<strong>Contenidos priorizados${d.elective?' · compartidos A/B':''}</strong>","<strong>${(ORI[state.active]||{}).dcj?'Contenidos del Diseño Curricular':'Contenidos priorizados'}${d.elective?' · compartidos A/B':''}</strong>");
+
+    if(!phase2Source.includes("'Agro y Ambiente':{f:'agro_ambiente',dcj:true}")||phase2Source.includes('if(m.dcj)return[];')){
+      throw new Error('No se pudo aplicar la integración V35 de Fase 2.');
+    }
+    const phase2Inline='<script>'+phase2Source.replace(/<\/script/gi,'<\\/script')+'</scr'+'ipt>\n';
+
+    html=html.replace("const STORAGE='pci-sa-v2-app-20260910-7';","const STORAGE='pci-sa-v2-app-20260910-21';");
+    html=html.replace("data/materias-v2.json?v=20260910-7","data/materias-v2.json?v=20260911-35");
+    html=html.replace(
+      '<div class="notice"><strong>Importante:</strong> ubicar Historia de 1.º en C1 no la saca de la bolsa. Sigue disponible para C2. Lo mismo ocurre con todos los pares C1/C2, C3/C4, C5/C6, C7/C8 y C9/C10. En las troncales, una sola asignación ocupa los dos cuatrimestres.</div>',
+      '<div class="notice"><strong>Mapa inicial:</strong> la Formación General aparece prearmada y puede reorganizarse. Desde Nivel 3, las materias de Formación Orientada pueden integrarse a laboratorios de Ciencias Sociales o Ciencias Naturales del mismo año siempre que se preserven los mínimos de los espacios FO. En Formación Orientada, los laboratorios y talleres de Nivel 4 y Nivel 5 necesitan al menos dos asignaturas; en Nivel 3 pueden conformarse con una sola. Los espacios FO incompletos no permiten validar el Mapa de la Oferta. La asignación docente es opcional y se realiza sobre cada materia. La Fase 2 levanta esta estructura y la desarrolla con bolsa curricular y drag & drop.</div>'
+    );
+    const closeScript='</scr'+'ipt>';
+    html=html.replace('\ninit();\n'+closeScript,'\nwindow.__pciBaseInit=init;\n'+closeScript);
+    html=html.replace('</body>',
+      '<script src="src/v19-map.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v20-format-order.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v21-custom-social-ui.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v22-teachers.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v23-prearm.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v24-social-interactions.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v25-institutional-spaces.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v26-other-formats-print.js?v=20260911-35"></scr'+'ipt>\n'+
+      phase2Inline+
+      '<script src="src/v29-fo-rules.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v30-fo-minimum-guard.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v31-integration-hours-print.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v32-phase2-entry-fix.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script src="src/v35-phase2-content-bridge.js?v=20260911-35"></scr'+'ipt>\n'+
+      '<script>if(window.__pciBaseInit) window.__pciBaseInit();</scr'+'ipt>\n'+
+      '</body>'
+    );
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar la aplicación.</strong><p>'+String(error.message||error)+'</p></main>';
+  }
+})();
+</script>
+</body>
+</html>

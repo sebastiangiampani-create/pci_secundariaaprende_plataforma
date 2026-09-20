@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V67</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V67…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app-v66.html?v=20260913-66',{cache:'no-store'});
+    if(!response.ok)throw new Error('No se pudo cargar la base V66.');
+    let html=await response.text();
+    html=html.replace('PCI Secundaria Aprende V66','PCI Secundaria Aprende V67');
+    html=html.replace('Cargando PCI Secundaria Aprende V66…','Cargando PCI Secundaria Aprende V67…');
+    html=html.replace("const VERSION='20260913-66';","const VERSION='20260913-67';");
+    html=html.replace("'src/v66-institutional-general.js'","'src/v66-institutional-general.js','src/v67-institutional-export.js'");
+    html=html.replace('data/materias-v2.json?v=20260913-66','data/materias-v2.json?v=20260913-67');
+    document.open();document.write(html);document.close();
+  }catch(error){document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar V67.</strong><p>'+String(error.message||error)+'</p></main>'}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V2</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V2…</p>
+<script>
+(async()=>{
+  const VERSION='20260916-fo-atomic';
+  const modulePaths=[
+    'src/v19-map.js','src/v20-format-order.js','src/v21-custom-social-ui.js','src/v22-teachers.js',
+    'src/v23-prearm.js','src/v24-social-interactions.js','src/v25-institutional-spaces.js','src/v26-other-formats-print.js',
+    'src/v29-fo-rules.js','src/v30-fo-minimum-guard.js','src/v31-integration-hours-print.js','src/v32-phase2-entry-fix.js',
+    'src/v38-phase2-workspace.js','src/v47-elective-plans.js','src/v42-homologacion-performance.js',
+    'src/v48-institutional-layer.js','src/v48-phase2-institutional-content.js','src/v48-disable-phase1-teachers.js','src/v57-custom-divisions.js',
+    'src/v52-derived-teacher-load.js','src/v51-school-timetable-config.js','src/v49-teacher-availability.js','src/v50-schedule-generator.js',
+    'src/v53-institutional-work-scheduler.js','src/v54-auto-area-coincidence.js','src/v58-parallel-phases.js','src/v59-phase2-annual-matrix.js','src/v55-contiguous-area-blocks.js','src/v56-offer-model.js'
+  ];
+  const fetchText=async url=>{
+    const response=await fetch(`${url}?v=${VERSION}`,{cache:'force-cache'});
+    if(!response.ok)throw new Error(`No se pudo cargar ${url}.`);
+    return response.text();
+  };
+  const inline=source=>'<script>'+String(source).replace(/<\/script/gi,'<\\/script')+'</scr'+'ipt>\n';
+
+  try{
+    const [htmlRaw,phase2Source,foAtomicSource,...moduleSources]=await Promise.all([
+      fetchText('app-core.html'),
+      fetchText('src/v47-phase2-matrix.js'),
+      fetchText('src/v47-fo-content-atomicizer.js'),
+      ...modulePaths.map(fetchText)
+    ]);
+
+    if(!phase2Source.includes("const VERSION='20260912-47'")||!phase2Source.includes('function areaPool')||!phase2Source.includes("?'Tutoría':g.area")||!phase2Source.includes('window.PCIPhase2V28=')){
+      throw new Error('No se pudo cargar la versión consolidada V47 de Fase 2.');
+    }
+
+    let html=htmlRaw;
+    html=html.replace("const STORAGE='pci-sa-v2-app-20260910-7';","const STORAGE='pci-sa-v2-app-20260910-21';");
+    html=html.replace("data/materias-v2.json?v=20260910-7","data/materias-v2.json?v=20260916-fo-atomic");
+    html=html.replace(
+      '<div class="notice"><strong>Importante:</strong> ubicar Historia de 1.º en C1 no la saca de la bolsa. Sigue disponible para C2. Lo mismo ocurre con todos los pares C1/C2, C3/C4, C5/C6, C7/C8, C9/C10. En las troncales, una sola asignación ocupa los dos cuatrimestres.</div>',
+      '<div class="notice"><strong>Mapa inicial:</strong> la Formación General aparece prearmada y puede reorganizarse. Desde Nivel 3, las materias de Formación Orientada pueden integrarse a laboratorios de Ciencias Sociales o Ciencias Naturales del mismo año siempre que se preserven los mínimos de los espacios FO. En Formación Orientada, los laboratorios y talleres de Nivel 4 y Nivel 5 necesitan al menos dos asignaturas; en Nivel 3 pueden conformarse con una sola. Los espacios FO incompletos no permiten validar el Mapa de la Oferta. Las materias agregadas por la institución deben indicar sus horas semanales frente a curso. La Fase 2 conserva la bolsa completa de contenidos priorizados por área; un mismo contenido puede reutilizarse en varios espacios y para la cobertura cuenta una sola vez. Las materias institucionales aparecen en Fase 2 dentro del espacio donde fueron ubicadas y sus contenidos se cargan manualmente. Otros formatos pedagógicos utiliza la bolsa de contenidos priorizados de Tutoría. Fase 2 e Implementación institucional pueden trabajarse aun mientras este mapa siga en construcción.</div>'
+    );
+    html=html.replace(
+      '<div class="notice"><strong>Importante:</strong> ubicar Historia de 1.º en C1 no la saca de la bolsa. Sigue disponible para C2. Lo mismo ocurre con todos los pares C1/C2, C3/C4, C5/C6, C7/C8 y C9/C10. En las troncales, una sola asignación ocupa los dos cuatrimestres.</div>',
+      '<div class="notice"><strong>Mapa inicial:</strong> la Formación General aparece prearmada y puede reorganizarse. Desde Nivel 3, las materias de Formación Orientada pueden integrarse a laboratorios de Ciencias Sociales o Ciencias Naturales del mismo año siempre que se preserven los mínimos de los espacios FO. En Formación Orientada, los laboratorios y talleres de Nivel 4 y Nivel 5 necesitan al menos dos asignaturas; en Nivel 3 pueden conformarse con una sola. Los espacios FO incompletos no permiten validar el Mapa de la Oferta. Las materias agregadas por la institución deben indicar sus horas semanales frente a curso. La Fase 2 conserva la bolsa completa de contenidos priorizados por área; un mismo contenido puede reutilizarse en varios espacios y para la cobertura cuenta una sola vez. Las materias institucionales aparecen en Fase 2 dentro del espacio donde fueron ubicadas y sus contenidos se cargan manualmente. Otros formatos pedagógicos utiliza la bolsa de contenidos priorizados de Tutoría. Fase 2 e Implementación institucional pueden trabajarse aun mientras este mapa siga en construcción.</div>'
+    );
+
+    const closeScript='</scr'+'ipt>';
+    html=html.replace('\ninit();\n'+closeScript,'\nwindow.__pciBaseInit=init;\n'+closeScript);
+
+    const beforePhase2=moduleSources.slice(0,8).map(inline).join('');
+    const afterPhase2=moduleSources.slice(8).map(inline).join('');
+    html=html.replace('</body>',
+      beforePhase2+
+      inline(foAtomicSource)+
+      inline(phase2Source)+
+      afterPhase2+
+      '<script>(async()=>{if(window.__pciBaseInit)await window.__pciBaseInit();window.dispatchEvent(new Event("pci-app-ready"));})();</scr'+'ipt>\n'+
+      '</body>'
+    );
+
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar la aplicación.</strong><p>'+String(error.message||error)+'</p></main>';
+  }
+})();
+</script>
+</body>
+</html>

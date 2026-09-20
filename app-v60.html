@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12395c">
+<title>PCI Secundaria Aprende V60</title>
+</head>
+<body>
+<p style="font-family:system-ui;padding:24px">Cargando PCI Secundaria Aprende V60…</p>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('app.html?v=20260912-59',{cache:'no-store'});
+    if(!response.ok)throw new Error('No se pudo cargar la base V59.');
+    let html=await response.text();
+    html=html.replace("const VERSION='20260912-59';","const VERSION='20260912-60';");
+    html=html.replace("'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js'","'src/v55-contiguous-area-blocks.js','src/v56-offer-model.js','src/v60-reconciliation.js','src/v60-phase2-print.js'");
+    html=html.replace('data/materias-v2.json?v=20260912-59','data/materias-v2.json?v=20260912-60');
+    document.open();document.write(html);document.close();
+  }catch(error){document.body.innerHTML='<main style="font-family:system-ui;padding:24px"><strong>Error al cargar V60.</strong><p>'+String(error.message||error)+'</p></main>'}
+})();
+</script>
+</body>
+</html>

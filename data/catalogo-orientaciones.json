@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "descripcion": "Catálogo de orientaciones y bolsas curriculares de PCI Secundaria Aprende V2",
+  "orientaciones": [
+    {"id":"ciencias_naturales","nombre":"Ciencias Naturales","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_Ciencias_Naturales(3).pdf","bolsa":"data/orientaciones/ciencias_naturales.txt","cantidad_contenidos":140,"priorizados":true},
+    {"id":"matematica_fisica","nombre":"Matemática y Física","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_Matematica_Fisica(2).pdf","bolsa":"data/orientaciones/matematica_fisica.txt","cantidad_contenidos":56,"priorizados":true},
+    {"id":"energia_sustentabilidad","nombre":"Energía y Sustentabilidad","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_ENERGIA(2).pdf","bolsa":"data/orientaciones/energia_sustentabilidad.txt","cantidad_contenidos":37,"priorizados":true},
+    {"id":"economia_administracion","nombre":"Economía y Administración","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_Economia_Administracion(3).pdf","bolsa":"data/orientaciones/economia_administracion.txt","cantidad_contenidos":68,"priorizados":true},
+    {"id":"educacion_fisica","nombre":"Educación Física","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_Educacion_Fisica(3).pdf","bolsa":"data/orientaciones/educacion_fisica.txt","cantidad_contenidos":87,"priorizados":true},
+    {"id":"comunicacion","nombre":"Comunicación","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_COMUNICACION(2).pdf","bolsa":"data/orientaciones/comunicacion.txt","cantidad_contenidos":128,"priorizados":true},
+    {"id":"literatura","nombre":"Literatura","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_LITERATURA(3).pdf","bolsa":"data/orientaciones/literatura.txt","cantidad_contenidos":81,"priorizados":true},
+    {"id":"turismo","nombre":"Turismo","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_TURISMO(2).pdf","bolsa":"data/orientaciones/turismo.txt","cantidad_contenidos":78,"priorizados":true},
+    {"id":"lenguas","nombre":"Lenguas","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_LENGUAS(2).pdf","bolsa":"data/orientaciones/lenguas.txt","cantidad_contenidos":54,"priorizados":true},
+    {"id":"informatica","nombre":"Informática","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_INFORMATICA(2).pdf","bolsa":"data/orientaciones/informatica.txt","cantidad_contenidos":57,"priorizados":true},
+    {"id":"educacion","nombre":"Educación","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_EDUCACION(3).pdf","bolsa":"data/orientaciones/educacion.txt","cantidad_contenidos":70,"priorizados":true},
+    {"id":"ciencias_sociales_humanidades","nombre":"Ciencias Sociales y Humanidades","fuente_tipo":"contenidos_priorizados_2025","archivo_fuente":"2025_NS_CP_Ciencias_Sociales(3).pdf","bolsa":"data/orientaciones/ciencias_sociales_humanidades.txt","cantidad_contenidos":78,"priorizados":true},
+    {
+      "id":"arte",
+      "nombre":"Arte",
+      "fuente_tipo":"contenidos_priorizados_2025",
+      "archivo_fuente":"2025_NS_CP_ARTES(1).pdf",
+      "bolsa":"data/orientaciones/arte.txt",
+      "cantidad_contenidos":209,
+      "priorizados":true,
+      "variantes":[
+        {"id":"artes_visuales","nombre":"Arte - Artes Visuales"},
+        {"id":"musica","nombre":"Arte - Música"},
+        {"id":"teatro","nombre":"Arte - Teatro"}
+      ]
+    },
+    {
+      "id":"agro_ambiente",
+      "nombre":"Agro y Ambiente",
+      "fuente_tipo":"diseno_curricular_jurisdiccional",
+      "archivo_fuente":"NES-CO-agro-y-ambiente_w(2).pdf",
+      "bolsa":"data/orientaciones/agro_ambiente.txt",
+      "cantidad_contenidos":75,
+      "anio_fuente":2015,
+      "priorizados":false,
+      "salvedad":"No se presenta como contenido priorizado 2025. La bolsa utiliza contenidos del Diseño Curricular Jurisdiccional vigente y se identifica como DCJ en la interfaz."
+    }
+  ]
+}
