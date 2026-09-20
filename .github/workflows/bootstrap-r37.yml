@@ -25,6 +25,7 @@ jobs:
           git clone https://github.com/sebastiangiampani-create/pci_secundaria_aprende.git "$SRC_DIR"
           git -C "$SRC_DIR" checkout b923b9bb06863e7325488bf00a846aed99dc67fe
           rm -rf "$SRC_DIR/.git"
+          rm -f "$SRC_DIR/.github/workflows/browser-js-check.yml"
 
           cp -a "$SRC_DIR/." "$GITHUB_WORKSPACE/"
 
